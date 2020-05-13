@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>面包屑导航css</title>
+    <style>
+      .breadcrumb {
+        font-size: 1.6rem;
+        color: pink;
+      }
+      .breadcrumb a:first-child {
+        color: #82fcfd;
+      }
+      .breadcrumb a:first-child::before {
+        content: " » ";
+      }
+      .breadcrumb a::after {
+        content: " /";
+        color: #ef6eae;
+      }
+      .breadcrumb a:last-child::after {
+        content: "";
+      }
+    </style>
+  </head>
+  <body>
+    <div class="breadcrumb">
+      <a>一级</a>
+      <a>二级</a>
+      <a>三级</a>
+    </div>
+  </body>
+</html>

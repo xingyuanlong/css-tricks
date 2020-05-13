@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>requestAnimationFrame和createDocumentFragment优化加载列表</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .list {
+        width: 60vw;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="list"></ul>
+    <script>
+      let list = document.querySelector(".list");
+      let total = 100000;
+      let size = 2000;
+      let index = 0;
+      const render = (total, index) => {
+        if (total <= 0) {
+          return;
+        }
+        let curPage = parseInt(Math.min(total / 2, size / 2))+1;
+        console.log("total", total, "curPage", curPage);
+        window.requestAnimationFrame(() => {
+          let fragment = document.createDocumentFragment();
+          for (let i = 0; i < curPage; ++i) {
+            let item = document.createElement("li");
+            item.innerText = `我是${index + i}`;
+            fragment.appendChild(item);
+          }
+          list.appendChild(fragment);
+          render(total - curPage, index + curPage);
+        });
+      };
+      render(total, index);
+      // 不会阻塞页面,卡死页面, 可以打开performance分析性能
+    </script>
+  </body>
+</html>

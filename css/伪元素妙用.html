@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>伪元素妙用</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .box-1 {
+        position: relative;
+        width: 120px;
+        line-height: 38px;
+        margin: 100px auto;
+        color: #333;
+        text-align: center;
+        font-size: 24px;
+        cursor: pointer;
+      }
+      /* hover 提示 */
+      .box-1:hover::before {
+        content: attr(data-msg);
+        position: absolute;
+        top: -50px;
+        left: 10px;
+        padding: 2px 6px;
+        display: inline-block;
+        color: #333;
+        border: 1px solid #333;
+        border-radius: 5px;
+        font-size: 14px;
+      }
+      /* 三角形箭头 */
+      .box-1:hover::after {
+        content: "";
+        border-top: 5px solid #333;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        position: absolute;
+        top: -6px;
+        left: 54px;
+      }
+      .t {
+        position: relative;
+        width: 200px;
+        height: 60px;
+        background: #ddd;
+        margin-left: 20px;
+      }
+      .t1 {
+        border-left: 5px solid pink;
+      }
+      .t2::before {
+        content: "";
+        width: 5px;
+        height: 100%;
+        display: block;
+        background-color: pink;
+      }
+      .t3 {
+        box-shadow: inset 5px 0px pink;
+        margin-bottom: 100px;
+      }
+      .t4 {
+        box-shadow: -5px 0px 0 0 pink;
+        margin-top: 100px;
+      }
+      .t5 {
+        filter: drop-shadow(-5px 0 0 pink);
+      }
+      .t6 {
+        width: 205px;
+        overflow-y: scroll;
+      }
+      .t6::-webkit-scrollbar {
+        width: 200px;
+        background-color: #ddd;
+      }
+      #heart {
+        position: relative;
+        width: 100px;
+        height: 90px;
+      }
+      #heart:before,
+      #heart:after {
+        position: absolute;
+        content: "";
+        left: 50px;
+        top: 0;
+        width: 50px;
+        height: 80px;
+        background: red;
+        -moz-border-radius: 50px 50px 0 0;
+        border-radius: 50px 50px 0 0;
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        -webkit-transform-origin: 0 100%;
+        -moz-transform-origin: 0 100%;
+        -ms-transform-origin: 0 100%;
+        -o-transform-origin: 0 100%;
+        transform-origin: 0 100%;
+      }
+      #heart:after {
+        left: 0;
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        transform: rotate(45deg);
+        -webkit-transform-origin: 100% 100%;
+        -moz-transform-origin: 100% 100%;
+        -ms-transform-origin: 100% 100%;
+        -o-transform-origin: 100% 100%;
+        transform-origin: 100% 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-msg="类title框展示" class="box-1">Hover ME</div>
+    <p>不同css 设置侧边条</p>
+    <div class="t t1"></div>
+    <br />
+    <div class="t t2"></div>
+    <br />
+    <div class="t t3"></div>
+    <div class="t t4"></div>
+    <br />
+    <div class="t t5"></div>
+    <br />
+    <div class="t6"></div>
+    <br />
+    <div id="heart"></div>
+  </body>
+</html>

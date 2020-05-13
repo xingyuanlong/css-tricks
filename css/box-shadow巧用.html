@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>box-shadow 巧用</title>
+    <style>
+      .bg {
+        margin: 0 auto;
+        height: 100px;
+        width: 200px;
+        background-color: deeppink;
+        box-shadow: 0 0 0 6px #fff, 0 0 0 10px #333, 0 0 0 15px #aaa,
+          0 2px 5px 15px #666;
+      }
+      #foo {
+        height: 100px;
+        width: 200px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /* box-shadow模拟遮罩层 */
+        box-shadow: 0 0 0 1920px rgba(0, 0, 0, 0.5);
+        text-align: center;
+      }
+      .cloud {
+        width: 100px;
+        height: 100px;
+        margin: 50px auto;
+        background: #999;
+        border-radius: 50%;
+        /* box-shadow 巧妙实现乌云 */
+        box-shadow: 120px 0px 0 -10px #999, 95px 20px 0 0px #999,
+          30px 30px 0 -10px #999, 90px -20px 0 0px #999, 40px -40px 0 0px #999;
+      }
+      .btn {
+        width: 200px;
+        line-height: 68px;
+        text-align: center;
+        font-size: 16px;
+        margin: 50px auto;
+        color: #fff;
+        background: hsl(0, 0%, 60%);
+        cursor: pointer;
+        box-shadow: 1px 1px 0 0 hsl(0, 0%, 65%), 2px 2px 0 0 hsl(0, 0%, 70%),
+          3px 3px 0 0 hsl(0, 0%, 75%), 4px 4px 0 0 hsl(0, 0%, 80%),
+          5px 5px 0 0 hsl(0, 0%, 85%);
+      }
+      .btn:hover {
+        background: hsl(0, 0%, 40%);
+      }
+      .btn:active {
+        background: hsl(0, 0%, 65%);
+        box-shadow: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div class="bg">
+        box-shadow 模拟多边框
+      </div>
+    </div>
+    <!-- <div id="foo">
+      box-shadow模拟遮罩层
+    </div> -->
+    <br />
+    <br />
+    <div class="cloud"></div>
+    <br />
+    <div class="btn">
+      立体按钮
+    </div>
+  </body>
+</html>

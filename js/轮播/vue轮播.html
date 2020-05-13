@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <style type="text/css">
+        #app {
+            display: flex;
+            align-items: center;
+            margin: auto;
+            width: 200px;
+        }
+        ul  {
+            list-style-type: none;
+            position: relative;
+            width: 100px;
+            height: 100px;
+            box-sizing: border-box;
+            padding: 0;
+            margin: auto;
+            overflow: hidden;
+        }
+        li {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+        }
+        #one {
+            background: yellow;
+        }
+        #two {
+            background: darkseagreen;
+        }
+        #three {
+            background: pink;
+        }
+        #four {
+            background: orange;
+        }
+
+        .right_animation-enter, .left_animation-leave-to {
+            transition: all .3s ease;
+            transform: translateX(-100px);
+        }
+
+        .right_animation-leave-to, .left_animation-enter {
+            transition: all .3s ease;
+            transform: translateX(100px);
+        }
+
+        .right_animation-enter-to, .right_animation-leave, .left_animation-enter-to, .left_animation-leave {
+            transition: all .3s ease;
+            transform: translateX(0);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="turn('left')">左</button>
+        <transition-group tag="ul" :name="direction=='left' ? 'left_animation' : 'right_animation'">
+                <li v-for="(img,index) in imgs"
+                    :id="img"
+                    :key="index"
+                    v-show="current_index===index">
+                </li>
+        </transition-group>
+        <button @click="turn('right')">右</button>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            imgs: ['one', 'two', 'three', 'four'],
+            direction: 'left',
+            current_index: 0
+        },
+        methods: {
+            turn: function (side) {
+                this.direction = side
+                if (side == 'left') {
+                    this.current_index -= 1
+                    if (this.current_index < 0) {
+                        this.current_index = this.imgs.length - 1
+                    }
+                } else {
+                    this.current_index += 1
+                    if (this.current_index === this.imgs.length) {
+                        this.current_index = 0
+                    }
+                }
+            }
+        }})
+</script>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>file-api-test-2</title>
+  </head>
+  <body>
+    <input type="file" id="file" multiple accept=".png,.jpg,.jepg"/>
+    <ul></ul>
+    <progress id="progress" max="100" value="0"></progress>
+    <button id="upload">上传</button>
+    <script>
+      const output = document.querySelector("#output");
+      const progress = document.querySelector("#progress");
+      document.querySelector("#file").addEventListener("change", function (e) {
+        // console.log(e, e.target, e.target.files)
+        const files = e.target.files;
+        console.log("files", files);
+        const len = files.length;
+        let i = 0;
+        while (i < len) {
+          console.log(files[i]);
+          i++;
+        }
+        const file = files[0];
+        let type = "";
+        const reader = new FileReader();
+        if (/image/.test(file.type)) {
+          reader.readAsDataURL(file);
+          type = "image";
+        } else {
+          reader.readAsText(file);
+          type = "text";
+        }
+
+        reader.onerror = function () {
+          output.innerHTML = "reader error" + reader.error.code;
+        };
+
+        reader.onprogress = function (e) {
+          if (e.lengthComputable) {
+            console.log(e.loaded + "==" + e.total);
+            progress.value = (e.loaded * 100) / e.total;
+          }
+        };
+
+        reader.onload = function () {
+          let html = "";
+          switch (type) {
+            case "image":
+              html = '<img src="' + reader.result + '">';
+              break;
+            case "text":
+              html = reader.result;
+              break;
+          }
+          output.innerHTML = html;
+        };
+      });
+    </script>
+  </body>
+</html>

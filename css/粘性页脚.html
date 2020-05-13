@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>粘性页脚</title>
+    <style>
+      .site {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .site-content {
+        flex: 1;
+      }
+      #more-content {
+        min-height: 2000px;
+        background-color: aquamarine;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="site">
+      <header><h2>粘性页脚</h2></header>
+      <main class="site-content">
+        <p>content</p>
+        <button id="change">change</button>
+        <div id="more-content">more content</div>
+      </main>
+      <footer><h2>footer</h2></footer>
+    </div>
+    <script>
+      let flag = true;
+      const but = document.querySelector("#change");
+      const content = document.querySelector("#more-content");
+      but.addEventListener("click", function () {
+        if (flag) {
+          flag = false;
+          content.setAttribute("hidden", "true");
+        } else {
+          flag = true;
+          content.removeAttribute("hidden");
+        }
+      });
+    </script>
+  </body>
+</html>

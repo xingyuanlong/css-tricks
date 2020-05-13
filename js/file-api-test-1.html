@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>file-api-test-1</title>
+    <style>
+      .visually-hidden {
+        position: absolute !important;
+        height: 1px;
+        width: 1px;
+        overflow: hidden;
+        clip: rect(1px, 1px, 1px, 1px);
+      }
+
+      input.visually-hidden:focus + label {
+        outline: thin dotted;
+      }
+
+      input.visually-hidden:focus-within + label {
+        outline: thin dotted;
+      }
+    </style>
+  </head>
+
+  <body>
+    <input type="file" id="file" multiple style="display: none;" />
+    <label for="file">Select some files === label</label>
+    <button id="fileSelect">Select some files</button>
+    <br />
+    selected files: <span id="fileNum">0</span>; total size:
+    <span id="fileSize">0</span>
+    <br />
+    <div id="preview"></div>
+  </body>
+  <script>
+    window.onload = () => {
+      let file = document.querySelector("#file");
+      let fileSelect = document.getElementById("fileSelect");
+      let preview = document.getElementById("preview");
+      fileSelect.addEventListener(
+        "click",
+        function (e) {
+          if (file) {
+            file.click();
+          }
+        },
+        false
+      );
+      console.log(file);
+      file.addEventListener("change", (e) => {
+        console.log(e.target.files);
+        handleFiles(e.target.files);
+        let nBytes = 0,
+          oFiles = document.getElementById("file").files,
+          nFiles = oFiles.length;
+        for (let nFileId = 0; nFileId < nFiles; nFileId++) {
+          nBytes += oFiles[nFileId].size;
+        }
+        let sOutput = nBytes + " bytes";
+        // optional code for multiples approximation
+        for (
+          let aMultiples = [
+              "KiB",
+              "MiB",
+              "GiB",
+              "TiB",
+              "PiB",
+              "EiB",
+              "ZiB",
+              "YiB",
+            ],
+            nMultiple = 0,
+            nApprox = nBytes / 1024;
+          nApprox > 1;
+          nApprox /= 1024, nMultiple++
+        ) {
+          sOutput =
+            nApprox.toFixed(3) +
+            " " +
+            aMultiples[nMultiple] +
+            " (" +
+            nBytes +
+            " bytes)";
+        }
+        // end of optional code
+        document.getElementById("fileNum").innerHTML = nFiles;
+        document.getElementById("fileSize").innerHTML = sOutput;
+      });
+    };
+
+    function handleFiles(files) {
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        var imageType = /^image\//;
+
+        if (!imageType.test(file.type)) {
+          continue;
+        }
+
+        var img = document.createElement("img");
+        img.classList.add("obj");
+        img.file = file;
+        preview.appendChild(img); // 假设"preview"就是用来显示内容的div
+
+        var reader = new FileReader();
+        reader.onload = (function (aImg) {
+          return function (e) {
+            aImg.src = e.target.result;
+          };
+        })(img);
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
+</html>

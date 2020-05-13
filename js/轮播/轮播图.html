@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>轮播图</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      a {
+        text-decoration: none;
+      }
+      .container {
+        position: relative;
+        width: 600px;
+        height: 400px;
+        margin: 100px auto 0 auto;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }
+      .wrap {
+        position: absolute;
+        z-index: 1;
+        width: 4200px;
+        height: 400px;
+      }
+      .container .wrap img {
+        float: left;
+        width: 600px;
+        height: 400px;
+      }
+      .container .buttons {
+        position: absolute;
+        z-index: 2;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+      }
+      .container .buttons span {
+        display: inline-block;
+        margin-left: 5px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #ffbb96;
+        text-align: center;
+        line-height: 20px;
+        color: white;
+        cursor: pointer;
+      }
+      .container .buttons span.on {
+        background-color: #ad2102;
+      }
+      .container .arrow {
+        position: absolute;
+        z-index: 2;
+        display: none;
+        top: 40%;
+        height: 40px;
+        width: 40px;
+        color: green;
+        border-radius: 50%;
+        line-height: 40px;
+        text-align: center;
+        font-size: 20px;
+      }
+      .container .arrow_left {
+        left: 10px;
+      }
+      .container .arrow_right {
+        right: 10px;
+      }
+      .container:hover .arrow {
+        display: block;
+      }
+      .container .arrow:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="wrap" style="left: 0px;">
+        <img
+          src="https://sitecdn.zcy.gov.cn/zcy-front-other-upload/eb5f6ffac161a492066135012bdda5b7.png?x-oss-process=image/quality,Q_75/format,jpg"
+          alt=""
+        />
+        <img
+          src="https://zcy-gov-open-doc.oss-cn-north-2-gov-1.aliyuncs.com/1086PT/330106/1000552910/20194/c35a272c-61cf-4784-a075-c95a9aa2c6a7"
+          alt=""
+        />
+        <img
+          src="https://zcy-gov-open-doc.oss-cn-north-2-gov-1.aliyuncs.com/1086PT/330106/1000552910/20194/25bc34eb-3eab-4a03-bd64-451b0cb5dfe6?x-oss-process=image/resize,w_820"
+          alt=""
+        />
+        <img
+          src="https://zcy-gov-open-doc.oss-cn-north-2-gov-1.aliyuncs.com/1086PT/330106/1000552910/20194/85dcf7ab-cd21-4da2-893e-907391a7f909?x-oss-process=image/resize,w_820"
+          alt=""
+        />
+        <img
+          src="https://zcy-gov-open-doc.oss-cn-north-2-gov-1.aliyuncs.com/1086PT/330106/1000552910/20194/6c15d38e-d388-4bea-9e60-90c3805c4ffa?x-oss-process=image/resize,w_820"
+          alt=""
+        />
+      </div>
+      <div class="buttons">
+        <span data-no="1">1</span>
+        <span data-no="2">2</span>
+        <span data-no="3">3</span>
+        <span data-no="4">4</span>
+        <span data-no="5">5</span>
+      </div>
+      <a href="javascript:;" class="arrow arrow_left">&lt;</a>
+      <a href="javascript:;" class="arrow arrow_right">&gt;</a>
+    </div>
+    <script>
+      // TODO: 高度封装
+      var wrap = document.querySelector(".wrap");
+      var next = document.querySelector(".arrow_right");
+      var prev = document.querySelector(".arrow_left");
+      var dots = document.getElementsByTagName("span");
+      var index = 1;
+      var count = wrap.childElementCount;
+      var imgWidth = 600;
+      function showCurrentDot() {
+        Array.from(dots).map((dot) => {
+          dot.className = "";
+        });
+        dots[index - 1].className = "on";
+      }
+      function next_pic() {
+        index++;
+        if (index > count) {
+          index = 1;
+        }
+        showCurrentDot();
+        var newLeft;
+        if (wrap.style.left === -imgWidth * (count - 1) + "px") {
+          newLeft = 0;
+        } else {
+          newLeft = parseInt(wrap.style.left) - imgWidth;
+        }
+        wrap.style.left = newLeft + "px";
+      }
+      function prev_pic() {
+        index--;
+        if (index < 1) {
+          index = count;
+        }
+        showCurrentDot();
+        var newLeft;
+        if (wrap.style.left === "0px") {
+          newLeft = -imgWidth * (count - 1);
+        } else {
+          newLeft = parseInt(wrap.style.left) + imgWidth;
+        }
+        wrap.style.left = newLeft + "px";
+      }
+      window.addEventListener("load", () => {
+        next.onclick = function () {
+          next_pic();
+        };
+        prev.onclick = function () {
+          prev_pic();
+        };
+        showCurrentDot();
+        var timer = null;
+        let autoPlay = function autoPlay() {
+          timer = setInterval(function () {
+            next_pic();
+          }, 2500);
+        };
+        autoPlay();
+        var container = document.querySelector(".container");
+        container.addEventListener("mouseenter", () => clearInterval(timer));
+        container.addEventListener("mouseleave", () => autoPlay());
+        let btn = document.querySelector(".buttons");
+        btn.addEventListener("click", (e) => {
+          let id = e.target.getAttribute("data-no");
+          index = Number(id);
+          wrap.style.left = -(index - 1) * imgWidth + "px";
+          showCurrentDot();
+        });
+      });
+    </script>
+  </body>
+</html>

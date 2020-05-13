@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>观察者模式</title>
+  </head>
+  <body>
+    <script>
+      class Subject {
+        constructor() {
+          this.observers = [];
+        }
+        add(observer) {
+          this.observers.push(observer);
+        }
+        remove(observer) {
+          const index = this.observers.indexOf(observer);
+          if (index > -1) {
+            this.observers.splice(index, 1);
+          }
+        }
+        notify() {
+          const obs = this.observers;
+          for (let i = 0; i < obs.length; i++) {
+            obs[i].update();
+          }
+        }
+      }
+      class Observer {
+        constructor(name) {
+          this.name = name;
+        }
+        update() {
+          console.log("update:\t" + this.name);
+        }
+      }
+      a = new Observer("111");
+      b = new Observer("222");
+      q = new Subject();
+      q.add(a);
+      q.add(b);
+      q.notify();
+    </script>
+  </body>
+</html>

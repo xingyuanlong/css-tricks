@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>简易前端错误监控</title>
+  </head>
+  <body>
+    <h1>可以直接拿去使用</h1>
+    <p>适用于小型站点</p>
+    <script>
+      (function (BOM) {
+        // 捕获错误
+        // 1. JavaScript运行时错误
+        // 2. 当一项资源（如<img>或<script>）加载失败错误 但是不会冒泡到windows
+        //  使用error 对象的 tagName 判断
+        // 原生js, 精简 不依赖其他库
+        // 也可以配合 performance 做性能监控
+        // unhandledrejection: 当Promise 被 reject 且没有 reject 处理器的时候，会触发 unhandledrejection 事件,
+        // 可以用来捕获未 catch 的异常,
+        BOM.addEventListener(
+          "error",
+          function (e) {
+            // 无配置时, 不执行
+            if (!window.ErrorLogUrl && !window.DefaultImgUrl) {
+              return;
+            }
+            console.log("e", e);
+            var target = e.target, // 当前dom节点
+              tagName = target.tagName || "",
+              allTimes = 2,
+              iError = e.error; // 总失败次数，此时设定为2
+
+            var iData = {
+              message: e.message,
+              url: e.source,
+              line: e.lineno,
+              column: e.colno || (BOM.event && BOM.event.errorCharacter) || 0,
+              userAgent: navigator.userAgent,
+              time: new Date().getTime(),
+            };
+
+            // 当前异常是由图片加载异常引起的
+            if (tagName.toUpperCase() === "IMG") {
+              var times = Number(target.dataset.times) || 0; // 以失败的次数，默认为0
+              if (times >= allTimes) {
+                var transparent =
+                  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+                // 使用默认图片或者透明图站位
+                target.src = window.DefaultImgUrl
+                  ? window.DefaultImgUrl
+                  : transparent;
+                iData.type = "img-error";
+                iData.imgSrc = target.dataset.trueImg;
+                sendLog();
+              } else {
+                target.dataset.trueImg = target.src;
+                target.dataset.times = times + 1;
+                target.src = target.src;
+              }
+            } else {
+              iData.type = "js-error";
+              sendLog();
+            }
+            function sendLog() {
+              // 当前任务队列空闲时执行
+              BOM.setTimeout(function () {
+                if (iError && iError.stack)
+                  iData.stack = (iError.stack || iError.stacktrace).toString();
+
+                // 使用图片src 请求, 避免跨域,请求小,服务器可以配置返回204,节约资源
+                // 配置ErrorLogUrl 才会发送请求
+                var img = new Image();
+                window.ErrorLogUrl &&
+                  (img.src = window.ErrorLogUrl + "?" + JSON.stringify(iData));
+              }, 0);
+            }
+          },
+          true
+        );
+      })(self);
+      // 可以配置 记录的接口 和 默认图片
+      window.ErrorLogUrl = "http://127.0.0.1:8099/api/log";
+      // window.DefaultImgUrl="";
+    </script>
+    <script>
+      // 错误示例
+      const a = {};
+      console.log(a.b.c);
+    </script>
+    <div>
+      <img src="https://img.png" id="img" />
+    </div>
+  </body>
+</html>

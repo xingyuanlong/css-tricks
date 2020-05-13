@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>hashRouter</title>
+    <style>
+      #a,
+      #b {
+        display: none;
+        width: 100px;
+        height: 100px;
+        color: pink;
+      }
+      #root {
+        color: darkseagreen;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#a">a</a>
+    <a href="#b">b</a>
+    <div id="a">a</div>
+    <div id="b">b</div>
+    <hr />
+    <a data-id="h1" class="history">a</a>
+    <a data-id="h2" class="history">b</a>
+    <div id="root"></div>
+  </body>
+  <script>
+    window.addEventListener("hashchange", (e) => {
+      console.log(location.hash);
+      let hash = location.hash.slice(1);
+      let old = e.oldURL.split("#")[1];
+      document.getElementById(hash).style.display = "block";
+      old && (document.getElementById(old).style.display = "none");
+    });
+
+    window.addEventListener("popstate", () => {
+      let id = location.pathname;
+      console.log(id);
+      document.getElementById("root").innerHTML = id;
+    });
+    window.addEventListener("load", () => {
+      document.querySelectorAll(".history").forEach((el) =>
+        el.addEventListener("click", (e) => {
+          let id = e.target.getAttribute("data-id");
+          document.getElementById("root").innerHTML = id;
+          history.pushState(null, "", id);
+        })
+      );
+    });
+  </script>
+</html>

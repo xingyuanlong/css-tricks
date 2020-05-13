@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>菜单下拉</title>
+    <style>
+      html {
+        height: 100%;
+        background-color: #f8f8f8;
+      }
+      body {
+        overflow: hidden;
+        height: 100%;
+        width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        font-family: "Roboto", sans-serif;
+        color: #555555;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      ul,
+      li {
+        list-style: none outside none;
+        margin: 0;
+        padding: 0;
+      }
+      .dropdown summary {
+        direction: rtl;
+      }
+      .dropdown ::-webkit-details-marker {
+        direction: ltr;
+        margin-left: 1ch;
+      }
+      .dropdown ::-moz-list-bullet {
+        direction: ltr;
+        margin-left: 1ch;
+      }
+      .dropdown {
+        display: block;
+        position: relative;
+        cursor: pointer;
+      }
+      summary {
+        display: block;
+        width: 150px;
+        height: 40px;
+        padding: 12px 0 0;
+        background: #9dc852;
+        text-align: center;
+        color: #ffffff;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: 0.3s background-color;
+      }
+      summary:before {
+        content: "";
+        display: block;
+        height: 0;
+        border-top: 5px solid #9dc852;
+        border-left: 75px solid transparent;
+        border-right: 75px solid transparent;
+        border-bottom: 0 solid #dddddd;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 101;
+        transition: 0.2s 0.2s border-top ease-out, 0.3s border-top-color;
+      }
+      .summary:hover {
+        background: #8db842;
+      }
+      summary:hover:before {
+        border-top-color: #8db842;
+      }
+      .dropdown:hover > summary:before {
+        border-top-width: 0;
+        transition: 0.2s border-top-width ease-in, 0.3s border-top-color;
+      }
+      summary:after {
+        content: "";
+        display: block;
+        height: 0;
+        border-left: 75px solid transparent;
+        border-right: 75px solid transparent;
+        border-bottom: 0 solid #ebebeb;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 101;
+        transition: 0.2s border-bottom ease-in;
+      }
+      .dropdown:hover > summary:after {
+        border-bottom-width: 5px;
+        transition: 0.2s 0.2s border-bottom-width ease-out;
+      }
+
+      li:nth-child(2) summary {
+        background: #4e96b3;
+      }
+      li:nth-child(2) summary:hover {
+        background: #3e86a3;
+      }
+      li:nth-child(2) summary:before {
+        border-top-color: #4e96b3;
+      }
+      li:nth-child(2) summary:hover:before {
+        border-top-color: #3e86a3;
+      }
+
+      li:nth-child(3) summary {
+        background: #c97676;
+      }
+      li:nth-child(3) summary:hover {
+        background: #b96666;
+      }
+      li:nth-child(3) summary:before {
+        border-top-color: #c97676;
+      }
+      li:nth-child(3) summary:hover:before {
+        border-top-color: #b96666;
+      }
+
+      li:nth-child(4) summary {
+        background: #dbab58;
+      }
+      li:nth-child(4) summary:hover {
+        background: #cb9b48;
+      }
+      li:nth-child(4) summary:before {
+        border-top-color: #dbab58;
+      }
+      li:nth-child(4) summary:hover:before {
+        border-top-color: #cb9b48;
+      }
+      .menu-dropdown {
+        min-width: 100%;
+        padding: 15px 0;
+        /* position: absolute; */
+        background: #ebebeb;
+        z-index: 100;
+        transition: 0.5s padding, 0.5s background;
+      }
+
+      .menu-dropdown:after {
+        content: "";
+        display: block;
+        height: 0;
+        border-top: 5px solid #ebebeb;
+        border-left: 75px solid transparent;
+        border-right: 75px solid transparent;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 101;
+        transition: 0.5s border-top;
+      }
+      .dropdown:not(:hover) > .menu-dropdown {
+        padding: 4px 0;
+        background: #dddddd;
+        z-index: 99;
+      }
+      .dropdown:not(:hover) > .menu-dropdown:after {
+        border-top-color: #dddddd;
+      }
+
+      .dropdown:not(:hover) > summary:after {
+        border-bottom-color: #dddddd;
+      }
+
+      .dropdown:focus,
+      .dropdown:active {
+        outline: none;
+      }
+      .menu-dropdown > * {
+        overflow: hidden;
+        height: 40px;
+        line-height: 40px;
+        padding: 5px 10px;
+        background: rgba(0, 0, 0, 0);
+        white-space: nowrap;
+        transition: 0.5s height cubic-bezier(0.73, 0.32, 0.34, 1.5),
+          0.5s padding cubic-bezier(0.73, 0.32, 0.34, 1.5),
+          0.5s margin cubic-bezier(0.73, 0.32, 0.34, 1.5), 0.5s 0.2s color,
+          0.2s background-color;
+      }
+
+      .menu-dropdown > *:hover {
+        background: rgba(0, 0, 0, 0.1);
+      }
+
+      .dropdown:not(:hover) > .menu-dropdown > * {
+        padding-top: 0;
+        padding-bottom: 0;
+        margin: 0;
+        transition: 0.5s 0.1s height, 0.5s 0.1s padding, 0.5s 0.1s margin,
+          0.3s color, 0.6s visibility;
+        z-index: 99;
+      }
+
+      .hList {
+        overflow: hidden;
+      }
+
+      .hList > * {
+        float: left;
+      }
+
+      .hList > * + * {
+        margin-left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- https://codepen.io/airen/pen/MxLaVd -->
+    <ul class="hList">
+      <li>
+        <details class="dropdown">
+          <summary>animals</summary>
+          <ul class="menu-dropdown">
+            <li><a href="##">acat</a></li>
+            <li><a href="##">adog</a></li>
+            <li><a href="##">ahorse</a></li>
+            <li><a href="##">acow</a></li>
+            <li><a href="##">pig</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details class="dropdown">
+          <summary>names</summary>
+          <ul class="menu-dropdown">
+            <li><a href="##">Kevin</a></li>
+            <li><a href="##">Jim</a></li>
+            <li><a href="##">Andy</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details class="dropdown">
+          <summary>things</summary>
+          <ul class="menu-dropdown">
+            <li><a href="##">bench</a></li>
+            <li><a href="##">pizza</a></li>
+            <li><a href="##">Honda CB125</a></li>
+            <li><a href="##">space</a></li>
+            <li><a href="##">black matter</a></li>
+            <li><a href="##">apple</a></li>
+            <li><a href="##">philodendron</a></li>
+            <li><a href="##">liver</a></li>
+            <li><a href="##">brass</a></li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details class="dropdown">
+          <summary>Movies</summary>
+          <ul class="menu-dropdown">
+            <li><a href="##">Godzilla</a></li>
+            <li><a href="##">Man on Wire</a></li>
+            <li><a href="##">Spirited Away</a></li>
+            <li><a href="##">Interstellar</a></li>
+          </ul>
+        </details>
+      </li>
+    </ul>
+  </body>
+</html>

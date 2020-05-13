@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>i字母动画</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background-color: white;
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    .wrapper {
+      display: flex;
+      justify-content: space-around;
+      align-items: baseline;
+      padding: 3em 1em 3em 1em;
+    }
+
+    .box {
+      display: inline-block;
+    }
+
+    .letter {
+      text-align: center;
+      font-size: 4em;
+      margin: 0;
+      font-weight: bold;
+      color: black;
+      line-height: 0.6;
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    @keyframes bounce {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+
+      to {
+        transform: translate3d(0, -10px, 0);
+      }
+    }
+
+    .bounce {
+      animation: bounce 0.4s;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+    }
+
+    @keyframes color-change {
+      from {
+        color: #ff8a00;
+      }
+
+      to {
+        color: #0075ff;
+      }
+    }
+
+    .color-change {
+      color: #ff8a00;
+      animation: color-change 2s infinite alternate;
+    }
+
+    @keyframes appear {
+      0% {
+        font-size: 0;
+        opacity: 0;
+      }
+
+      50% {
+        font-size: 4em;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .appear {
+      animation: appear 3s alternate infinite;
+    }
+
+    @keyframes rotate {
+      0% {
+        opacity  : 0;
+        transform:rotate(45deg);
+      }
+
+
+      100% {
+        opacity: 1;
+        transform:rotate(0deg);
+      }
+    }
+
+    .rotate {
+      animation: rotate 3s alternate infinite;
+    }
+
+  </style>
+</head>
+
+<body>
+  <main class="wrapper">
+    <section>
+      <div class="box">
+        <p class="letter">.</p>
+        <p class="letter appear">ı</p1>
+      </div>
+    </section>
+    <section>
+      <div class="box">
+        <p class="letter color-change">.</p>
+        <p class="letter">ı</p1>
+      </div>
+    </section>
+    <section>
+      <div class="box">
+        <p class="letter bounce">.</p>
+        <p class="letter">ı</p1>
+      </div>
+    </section>
+    <section>
+      <div class="box">
+        <p class="letter">.</p>
+        <p class="letter rotate">ı</p1>
+      </div>
+    </section>
+  </main>
+</body>
+
+</html>

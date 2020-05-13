@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>图片视差</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        font-family: "Amatic SC", cursive;
+      }
+      .block {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        font-size: 16px;
+      }
+      .block h2 {
+        position: relative;
+        display: block;
+        text-align: center;
+        margin: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 10vw;
+        color: white;
+        font-weight: 400;
+      }
+      .img-parallax {
+        width: 100vmax;
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, 0);
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="block">
+      <img
+        src="http://img0.imgtn.bdimg.com/it/u=2475048474,1146219786&fm=26&gp=0.jpg"
+        data-speed="-1"
+        class="img-parallax"
+      />
+      <h2>视差速度 -1</h2>
+    </div>
+    <div class="block">
+      <img
+        src="http://img1.imgtn.bdimg.com/it/u=3473209559,4088304390&fm=26&gp=0.jpg"
+        data-speed="1"
+        class="img-parallax"
+      />
+      <h2>视差速度 1</h2>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+      // 循环获取每一个图片元素
+      $(".img-parallax").each(function () {
+        var img = $(this);
+        var imgParent = $(this).parent();
+        function parallaxImg() {
+          var speed = img.data("speed"); // 获取每张图片设置了的偏移速度
+          var imgY = imgParent.offset().top; // 获取图片盒子所在的Y位置
+          var winY = $(this).scrollTop(); // 获取当前滑动到的位置
+          var winH = $(this).height(); // 获取浏览器窗口高度
+          var parentH = imgParent.innerHeight(); // 获取图片盒子的内高度
+
+          // 浏览器窗口底部的所在位置
+          var winBottom = winY + winH;
+
+          // 当前图片是否进入浏览器窗口
+          if (winBottom > imgY && winY < imgY + parentH) {
+            // 运算图片需要开始移动的位置
+            var imgBottom = (winBottom - imgY) * speed;
+            // 运算出图片需要停止移动的位置
+            var imgTop = winH + parentH;
+            // 获取从开始移动到结束移动的%（根据开始与结束像素 + 移动速度）
+            var imgPercent = (imgBottom / imgTop) * 100 + (50 - speed * 50);
+          }
+          img.css({
+            top: imgPercent + "%",
+            transform: "translate(-50%, -" + imgPercent + "%)",
+          });
+        }
+        $(document).on({
+          scroll: function () {
+            parallaxImg();
+          },
+          ready: function () {
+            parallaxImg();
+          },
+        });
+      });
+    </script>
+  </body>
+</html>

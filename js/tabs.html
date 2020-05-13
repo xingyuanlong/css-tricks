@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>tabs</title>
+    <style>
+      .container {
+        background-color: darkseagreen;
+      }
+      .tab-head {
+        display: flex;
+      }
+      .tab {
+        height: 30px;
+        width: 40px;
+      }
+
+      .tab-head-acitve {
+        border-bottom: 2px solid pink;
+        background-color: pink;
+      }
+      .tab-content-box {
+        display: flex;
+      }
+
+      .tab-content {
+        display: none;
+      }
+      .tab-content-acitve {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="tab-head" id="1">
+        <div class="tab" id="tab1">tab1</div>
+        <div class="tab" id="tab2">tab2</div>
+        <div class="tab" id="tab3">tab3</div>
+      </div>
+      <div class="tab-content-box">
+        <div class="tab-content" id="tab1-content" hidden="true">
+          tab1 content
+        </div>
+        <div class="tab-content" id="tab2-content">tab2 content</div>
+        <div class="tab-content" id="tab3-content">tab3 content</div>
+      </div>
+    </div>
+    <a href="https://ant.design/components/tabs-cn/"
+      >https://ant.design/components/tabs-cn/</a
+    >
+  </body>
+  <script>
+    var tab = document.querySelectorAll(".tab");
+    var content = document.querySelectorAll(".tab-content");
+    if (tab.length > 0) {
+      tab[0].classList.add("tab-head-acitve");
+    }
+    if (content.length > 0) {
+      content[0].classList.add("tab-content-acitve");
+    }
+    var tabHead = document.querySelector(".tab-head");
+    // tabHead.firstChild.classList.add('active');
+    var tabContent = document.querySelector(".tab-content");
+    // tabContent.firstChild.classList.add('active');
+    var s = "";
+    tabHead.addEventListener("click", (e) => {
+      console.log(e.target);
+      var id = e.target.id;
+      tab.forEach((t) => {
+        t.classList.remove("tab-head-acitve");
+      });
+      content.forEach((t) => {
+        t.classList.remove("tab-content-acitve");
+      });
+      e.target.classList.add("tab-head-acitve");
+      s = "#" + id + "-content";
+      console.log(s);
+      document.querySelector(s).classList.add("tab-content-acitve");
+    });
+  </script>
+</html>

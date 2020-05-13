@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>发布订阅</title>
+  </head>
+  <body>
+    <script>
+      class Events {
+        constructor() {
+          this._evnets = Object.create(null);
+        }
+
+        on(event, fn) {
+          // 往事件中心添加事件
+          if (Array.isArray(event)) {
+            for (let i = 0; i < event.length; i++) {
+              this.on(evnet[i], fn);
+            }
+          } else {
+            (this._evnets[event] || (this._evnets[event] = [])).push(fn);
+          }
+        }
+
+        emit(event, ...args) {
+          // 触发事件中心对应事件
+          const cbs = this._evnets[event];
+          if (cbs) {
+            for (let i = 0; i < cbs.length; i++) {
+              cbs[i].apply(this, args);
+            }
+          }
+        }
+      }
+      const e = new Events();
+      e.on("ok", function () {
+        console.log("ok-2");
+      });
+      e.on("ok", function (a) {
+        console.log("ok-2", a);
+      });
+      e.emit("ok", 888);
+      e.emit("ok", 999);
+    </script>
+  </body>
+</html>

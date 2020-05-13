@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>单格相簿效果</title>
+    <style>
+      #box {
+        width: 500px;
+      }
+      #box > div {
+        float: left;
+        height: 50px;
+        width: 50px;
+        text-align: center;
+        line-height: 50px;
+      }
+      #box > div:nth-child(24n + 4) {
+        height: 100px;
+        width: 100px;
+        background-color: darkseagreen;
+      }
+      #box > div:nth-child(24n + 8) {
+        height: 100px;
+        width: 100px;
+        background-color: pink;
+      }
+      #box > div:nth-child(24n + 9) {
+        margin-top: -50px;
+      }
+      #box > div:nth-child(24n +11) {
+        margin-top: -50px;
+      }
+      #box > div:nth-child(24n +13) {
+        margin-top: -50px;
+      }
+      #box > div:nth-child(24n + 17) {
+        margin-top: -50px;
+      }
+      #box > div:nth-child(24n +19) {
+        margin-top: -50px;
+      }
+      #box > div:nth-child(24n +21) {
+        margin-top: -50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box"></div>
+    <script>
+      const box = document.querySelector("#box");
+      const arr = new Array(48).fill(1).map((x, i) => x + i);
+      let child = "";
+      arr.map((x) => {
+        child += `<div>${x}</div>`;
+      });
+      box.innerHTML = child;
+      const arr1=[9,11,13,17];
+    </script>
+  </body>
+</html>

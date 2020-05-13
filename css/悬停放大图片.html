@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>悬停放大图片</title>
+    <style>
+      .img-wrapper {
+        width: 400px;
+        height: 400px;
+        overflow: hidden;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+      }
+
+      .img-wrapper img {
+        height: 400px;
+        -webkit-transition: 0.3s linear;
+        transition: 0.3s linear;
+      }
+
+      .img-wrapper img:hover {
+        transform: scale(1.2);
+        filter: grayscale(100%);
+      }
+
+      .img-wrapper {
+        display: inline-block;
+        box-sizing: border-box;
+        border: 3px solid #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="img-wrapper">
+      <img src="https://img-blog.csdnimg.cn/2020032122230564.png" />
+    </div>
+  </body>
+</html>
