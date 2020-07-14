@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>检索算法</title>
+</head>
+
+<body>
+    <h1>数据结构与算法 js描述</h1>
+    <script>
+        // 顺序查找
+        // 80-20 原则
+        // 搜索到数据若在2% 以外将移动到头部, 以便下次检索提高效率
+        function seqSearch(arr, data) {
+            for (var i = 0; i < arr.length; ++i) {
+                if (arr[i] == data && i > arr.length * 0.2) {
+                    a.splice(i, 1);
+                    a.splice(0, 0, data);
+                    return true;
+                } else if (arr[i] == data) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // 二分查找
+        function binSearch(arr, data) {
+            var upperBound = arr.length - 1;
+            var lowerBound = 0;
+            while (lowerBound <= upperBound) {
+                var mid = Math.floor((upperBound + lowerBound) / 2);
+                if (arr[mid] < data) {
+                    lowerBound = mid + 1;
+                } else if (arr[mid] > data) {
+                    upperBound = mid - 1;
+                } else {
+                    return mid;
+                }
+            }
+            return -1;
+        }
+        // 递归斐波那契函数
+        function recurFib(n) {
+            if (n < 2) {
+                return n;
+            } else {
+                return recurFib(n - 1) + recurFib(n - 2);
+            }
+        }
+        // 动态规划函数
+        // 斐波那契函数
+        function dynFib(n) {
+            var val = new Array(n).fill(0);
+            if (n == 1 || n == 2) {
+                return 1;
+            } else {
+                val[1] = 1;
+                val[2] = 2;
+                for (var i = 3; i <= n; ++i) {
+                    val[i] = val[i - 1] + val[i - 2];
+                }
+                console.log(val);
+                return val[n - 1];
+            }
+        }
+
+        console.time('recurFib');
+        console.log(recurFib(30));
+        console.timeEnd('recurFib');
+
+        console.time('dynFib');
+        console.log(dynFib(30));
+        console.timeEnd('dynFib');
+
+        // 背包问题
+        function max(a, b) {
+            return (a > b) ? a : b;
+        }
+
+        function knapsack(capacity, size, value, n) {
+            if (n == 0 || capacity == 0) {
+                return 0;
+            }
+            if (size[n - 1] > capacity) {
+                return knapsack(capacity, size, value, n - 1);
+            } else {
+                return max(value[n - 1] +
+                    knapsack(capacity - size[n - 1], size, value, n - 1), knapsack(capacity, size, value, n - 1));
+            }
+        }
+        var value = [4, 5, 10, 11, 13];
+        var size = [3, 4, 7, 8, 9];
+        var capacity = 16;
+        var n = 5;
+        console.log(knapsack(capacity, size, value, n));
+
+        function dKnapsack(capacity, size, value, n) {
+            var K = [];
+            for (var i = 0; i <= capacity + 1; i++) {
+                K[i] = [];
+            }
+            for (var i = 0; i <= n; i++) {
+                for (var w = 0; w <= capacity; w++) {
+                    if (i == 0 || w == 0) {
+                        K[i][w] = 0;
+                    }else if (size[i - 1] <= w) {
+                        K[i][w] = max(value[i - 1] + K[i-1][w-size[i-1]],K[i-1][w]);
+                    }else {
+                        K[i][w] = K[i-1][w];
+                    }
+                    console.log(K[i][w]+" ");
+                }
+                console.log();
+            }
+            return K[n][capacity];
+        }
+        console.log(dKnapsack(capacity, size, value, n));
+        
+    </script>
+</body>
+
+</html>
