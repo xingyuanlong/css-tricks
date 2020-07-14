@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js 实现常用数据结构</title>
+</head>
+
+<body>
+    <h1>来自 《数据结构与算法 javascript 实现》</h1>
+    
+    <ul>
+        <li>列表</li>
+        <li>栈</li>
+        <li>队列</li>
+        <li>链表</li>
+        <li>字典</li>
+        <li>散列</li>
+        <li>散列</li>
+        <li>集合</li>
+        <li>二叉树</li>
+    </ul>
+
+    <script>
+        const log = console.log;
+        // 列表
+        function List() {
+            this.listSize = 0;
+            this.pos = 0;
+            this.dataStore = []; // 初始化一个空数组来保存列表元素 
+            this.clear = clear;
+            this.find = find;
+            this.toString = toString;
+            this.insert = insert;
+            this.append = append;
+            this.remove = remove;
+            this.front = front;
+            this.end = end;
+            this.prev = prev;
+            this.next = next;
+            this.length = length;
+            //this.currPos = currPos;
+            this.moveTo = moveTo;
+            this.getElement = getElement;
+            this.length = length;
+            //this.contains = contains;
+
+            function append(element) {
+                this.dataStore[this.listSize++] = element;
+            }
+
+            function find(element) {
+                for (var i = 0; i < this.dataStore.length; ++i) {
+                    if (this.dataStore[i] == element) {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+
+            function remove(element) {
+                var foundAt = this.find(element);
+                if (foundAt > -1) {
+                    this.dataStore.splice(foundAt, 1);
+                    --this.listSize;
+                    return true;
+                }
+                return false;
+            }
+
+            function length() {
+                return this.listSize;
+            }
+
+            function toString() {
+                return this.dataStore;
+            }
+
+            function insert(element, after) {
+                var insertPos = this.find(after);
+                if (insertPos > -1) {
+                    this.dataStore.splice(insertPos + 1, 0, element);
+                    ++this.listSize;
+                    return true;
+                }
+                return false;
+            }
+
+            function front() {
+                this.pos = 0;
+            }
+
+            function end() {
+                this.pos = this.listSize - 1;
+            }
+
+            function prev() {
+                if (this.pos > 0) {
+                    --this.pos;
+                }
+            }
+
+            function next() {
+                if (this.pos < this.listSize - 1) {
+                    ++this.pos;
+                }
+            }
+
+            function currPos() {
+                return this.pos;
+            }
+
+            function moveTo(position) {
+                this.pos = position;
+            }
+
+            function getElement() {
+                return this.dataStore[this.pos];
+            }
+
+            function clear() {
+                delete this.dataStore;
+                this.dataStore = [];
+                this.listSize = this.pos = 0;
+            }
+
+            function contains(element) {
+                for (var i = 0; i < this.dataStore.length; ++i) {
+                    if (this.dataStore[i] == element) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+        }
+
+        // 栈 后入先出 
+        // LIFO，last-in-first-out
+        // 数据只能在栈顶添加或删除
+        function Stack() {
+            this.dataStore = [];
+            this.top = 0;
+            this.push = push;
+            this.pop = pop;
+            this.peek = peek;
+            this.length = length;
+            this.clear = clear;
+
+            function push(element) {
+                this.dataStore[this.top++] = element;
+            }
+
+            function pop() {
+                return this.dataStore[--this.top];
+            }
+
+            function peek() {
+                return this.dataStore[this.top - 1];
+            }
+
+            function length() {
+                return this.top;
+            }
+
+            function clear() {
+                this.top = 0;
+            }
+        }
+
+        // 利用栈 来转换数制
+        function mulBase(num, base) {
+            var s = new Stack();
+            do {
+                s.push(num % base);
+                num = Math.floor(num /= base);
+            } while (num > 0);
+            var converted = "";
+            while (s.length() > 0) {
+                converted += s.pop();
+            }
+            return converted;
+        }
+        mulBase(32, 2);
+        mulBase(32, 8);
+
+        // 栈 来替代递归 计算阶乘
+        function fact(n) {
+            var s = new Stack();
+            while (n > 1) {
+                s.push(n--);
+            }
+            var product = 1;
+            while (s.length() > 0) {
+                product *= s.pop();
+            }
+            return product;
+        }
+        fact(5)
+
+        // 队列 先进先出
+        // First-In-First-Out，FIFO
+        // 队列是一种列表，不同的是队列只能在队尾插入元素，在队首删除元素。
+        function Queue() {
+            this.dataStore = [];
+            this.enqueue = enqueue;
+            this.dequeue = dequeue;
+            this.front = front;
+            this.back = back;
+            this.toString = toString;
+            this.empty = empty;
+
+            function enqueue(element) {
+                this.dataStore.push(element);
+            }
+
+            function dequeue() {
+                return this.dataStore.shift();
+            }
+
+            function front() {
+                return this.dataStore[0];
+            }
+
+            function back() {
+                return this.dataStore[this.dataStore.length - 1];
+            }
+
+            function toString() {
+                var retStr = "";
+                for (var i = 0; i < this.dataStore.length; ++i) {
+                    retStr += this.dataStore[i] + "\n";
+                }
+                return retStr;
+            }
+
+            function empty() {
+                if (this.dataStore.length == 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        // 优先队列
+        // 可以指定优先级
+        function PriorityQueue() {
+            this.dataStore = [];
+            this.enqueue = enqueue;
+            this.dequeue = dequeue;
+            this.front = front;
+            this.back = back;
+            this.toString = toString;
+            this.empty = empty;
+            this.length = length;
+
+            // 入列
+            function enqueue(element, index = 5) {
+                var priority = this.dataStore.length;
+                if (!priority) {
+                    this.dataStore.push({
+                        value: element,
+                        code: index
+                    });
+                    return;
+                }
+                for (var i = 0; i < this.dataStore.length; ++i) {
+                    if (this.dataStore[i].code > index) {
+                        priority = i;
+                        break;
+                    }
+                }
+                this.dataStore.splice(priority, 0, {
+                    value: element,
+                    code: index
+                });
+            }
+
+            // 出列
+            function dequeue() {
+                return this.dataStore.shift().value;
+            }
+
+            function front() {
+                return this.dataStore[0].value;
+            }
+
+            function back() {
+                return this.dataStore[this.dataStore.length - 1].value;
+            }
+
+            function length() {
+                return this.dataStore.length;
+            }
+
+            function toString() {
+                var retStr = "";
+                for (var i = 0; i < this.dataStore.length; ++i) {
+                    retStr += this.dataStore[i].value + "\n";
+                }
+                return retStr;
+            }
+
+            function empty() {
+                if (this.dataStore.length == 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        p = new PriorityQueue();
+        p.enqueue(6);
+        p.enqueue(6, 1);
+        p.enqueue(6, 8);
+        p.enqueue(6, 2);
+        p.enqueue(6, 6);
+        p.enqueue(7, 6);
+        p.enqueue(8, 6);
+        p.enqueue(6, 9);
+        p.enqueue(6, 3);
+
+        // 链表
+        // 一组节点组成的集合。每个节点都使用一个对象的引用指向它的后继。指向另一 个节点的引用叫做链
+        // 单向链表
+        function Node(element) {
+            this.element = element;
+            this.next = null;
+        }
+        // LinkedList
+        function LList() {
+            this.head = new Node("head");
+            this.find = find;
+            this.findPrevious = findPrevious;
+            this.insert = insert;
+            this.remove = remove;
+            this.display = display;
+
+            function find(item) {
+                var currNode = this.head;
+                while (currNode.element != item) {
+                    currNode = currNode.next;
+                }
+                return currNode;
+            }
+
+            function insert(newElement, item) {
+                var newNode = new Node(newElement);
+                var current = this.find(item);
+                newNode.next = current.next;
+                current.next = newNode;
+            }
+
+            function display() {
+                var currNode = this.head;
+                while (currNode.next !== null) {
+                    log(currNode.next.element);
+                    currNode = currNode.next;
+                }
+            }
+
+            function findPrevious(item) {
+                var currNode = this.head;
+                while (currNode.next !== null &&
+                    (currNode.next.element != item)) {
+                    currNode = currNode.next;
+                }
+                return currNode;
+            }
+
+            function remove(item) {
+                var prevNode = this.findPrevious(item);
+                if (!(prevNode.next == null)) {
+                    prevNode.next = prevNode.next.next;
+                }
+            }
+        }
+
+        // 双向链表
+        function DulNode(element) {
+            this.element = element;
+            this.next = null;
+            this.previous = null;
+        }
+
+        function DulList() {
+            this.head = new DulNode("head");
+            this.find = find;
+            this.insert = insert;
+            this.display = display;
+            this.remove = remove;
+            this.findLast = findLast;
+            this.dispReverse = dispReverse;
+            this.cursor = this.head;
+            this.getCursor = getCursor;
+            this.back = back;
+            this.advance = advance;
+
+
+            function insert(newElement, item = 'head') {
+                var newNode = new Node(newElement);
+                this.cursor = newNode;
+                var current = this.find(item);
+                newNode.next = current.next;
+                newNode.previous = current;
+                current.next = newNode;
+            }
+
+            function remove(item) {
+                var currNode = this.find(item);
+                if (currNode.next !== null) {
+                    currNode.previous.next = currNode.next;
+                    currNode.next.previous = currNode.previous;
+                    currNode.next = null;
+                    currNode.previous = null;
+                }
+            }
+
+            function findLast() {
+                var currNode = this.head;
+                while (currNode.next !== null) {
+                    currNode = currNode.next;
+                }
+                return currNode;
+            }
+
+            function dispReverse() {
+                var currNode = this.head;
+                currNode = this.findLast();
+                while (!(currNode.previous == null)) {
+                    log(currNode.element);
+                    currNode = currNode.previous;
+                }
+            }
+
+            function display() {
+                var currNode = this.head;
+                while (currNode.next !== null) {
+                    log(currNode.next.element);
+                    currNode = currNode.next;
+                }
+            }
+
+            function find(item) {
+                var currNode = this.head;
+                while (currNode.element != item) {
+                    currNode = currNode.next;
+                }
+                return currNode;
+            }
+
+            function getCursor() {
+                return this.cursor;
+            }
+            // 前进
+            function advance(n) {
+                while (n-- && (this.cursor.previous !== null)) {
+                    this.cursor = this.cursor.previous;
+                }
+                return this.cursor;
+            }
+            // 后退
+            function back(n) {
+                while (n-- && (this.cursor.next !== null)) {
+                    this.cursor = this.cursor.next;
+                }
+                return this.cursor;
+            }
+        }
+        // 循环链表
+        // 循环链表和单向链表相似，节点类型都是一样的。唯一的区别是，在创建循环链表时，让其头节点的 next 属性指向它本身
+
+
+        // js 中 一切皆对象，数组也是对象。
+        // 字典
+        // 字典是一种以键 - 值对形式存储数据的数据结构
+        function Dictionary() {
+            this.datastore = new Array();
+            this.add = add;
+            this.find = find;
+            this.remove = remove;
+            this.showAll = showAll;
+            this.count = count;
+
+            function add(key, value) {
+                this.datastore[key] = value;
+            }
+
+            function find(key) {
+                return this.datastore[key];
+            }
+
+            function remove(key) {
+                delete this.datastore[key];
+            }
+
+            function showAll() {
+                for (var key in Object.keys(this.datastore)) {
+                    print(key + " -> " + this.datastore[key]);
+                }
+            }
+            //当键的类型为字符串时，length 属性 就不管用了
+            function count() {
+                var n = 0;
+                for (var key in Object.keys(this.datastore)) {
+                    ++n;
+                }
+                return n;
+            }
+        }
+
+
+        // 散列
+        // 散列后的数据可以快速地插入或取用。散列使用的数据 结构叫做散列表。在散列表上插入、删除和取用数据都非常快，但是对于查找操作来说却 效率低下
+        // 散列后的数据可以快速地插入或取用。散列使用的数据 结构叫做散列表
+        // 散列的值存在碰撞
+        // 处理碰撞: 1.开链法 两个键散列后的值相同，依然被保存在同样的位置,放在数组的不同位置上
+        //          2.线性探测法 开放寻址散列,当发生碰撞时，线性探测法检查散列表中的下一个位置是否为空。如果为空， 就将数据存入该位置;如果不为空，则继续检查下一个位置，直到找到一个空的位置为止。
+        //                      需要每个散列表都会有很多空的单元格，可以使用它们来存 储数据。
+        function HashTable() {
+            this.table = new Array(137);
+            this.simpleHash = simpleHash;
+            this.betterHash = betterHash;
+            this.showDistro = showDistro;
+            this.put = put;
+            this.get = get;
+
+            function simpleHash(data) {
+                var total = 0;
+                for (var i = 0; i < data.length; ++i) {
+                    total += data.charCodeAt(i);
+                }
+                return total % this.table.length;
+            }
+
+            function put(data) {
+                // var pos = this.simpleHash(data);
+                var pos = this.betterHash(data);
+                this.table[pos] = data;
+            }
+
+            function get(key) {
+                return this.table[this.betterHash(key)];
+            }
+
+            function showDistro() {
+                var n = 0;
+                for (var i = 0; i < this.table.length; ++i) {
+                    if (this.table[i] != undefined) {
+                        log(i + ": " + this.table[i]);
+                    }
+                }
+            }
+
+            // 霍纳算法
+            // 更好的散列函数
+            function betterHash(string) {
+                const H = 37;
+                var total = 0;
+                for (var i = 0; i < string.length; ++i) {
+                    total += H * total + string.charCodeAt(i);
+                }
+                total = total % this.table.length;
+                if (total < 0) {
+                    total += this.table.length - 1;
+                }
+                return parseInt(total);
+            }
+        }
+        // 测试
+        var someNames = ["David", "Jennifer", "Donnie", "Raymond",
+            "Cynthia", "Mike", "Clayton", "Danny", "Jonathan"
+        ];
+        var hTable = new HashTable();
+        for (var i = 0; i < someNames.length; ++i) {
+            hTable.put(someNames[i]);
+        }
+        hTable.showDistro();
+
+
+        // 集合
+        // 集合(set)是一种包含不同元素的数据结构。集合中的元素称为成员
+        // 1. 集合中的成员是无序的 
+        // 2. 集合中不允许相同成员存在
+        function Set() {
+            this.dataStore = [];
+            this.add = add;
+            this.remove = remove;
+            this.size = size;
+            this.union = union;
+            this.contains = contains;
+            this.intersect = intersect;
+            // this.subset = subset;
+            // this.difference = difference;
+            this.show = show;
+
+            function size() {
+                return this.dataStore.length;
+            }
+
+            function add(data) {
+                if (this.dataStore.indexOf(data) < 0) {
+                    this.dataStore.push(data);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            function remove(data) {
+                var pos = this.dataStore.indexOf(data);
+                if (pos > -1) {
+                    this.dataStore.splice(pos, 1);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            function show() {
+                return this.dataStore;
+            }
+
+            function contains(data) {
+                if (this.dataStore.indexOf(data) > -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            // 并集操作 两个集合合并成一个
+            function union(set) {
+                var tempSet = new Set();
+                for (var i = 0; i < this.dataStore.length; ++i) {
+                    tempSet.add(this.dataStore[i]);
+                }
+                for (var i = 0; i < set.dataStore.length; ++i) {
+                    if (!tempSet.contains(set.dataStore[i])) {
+                        tempSet.dataStore.push(set.dataStore[i]);
+                    }
+                }
+                return tempSet;
+            }
+            // 交集
+            function intersect(set) {
+                var tempSet = new Set();
+                for (var i = 0; i < this.dataStore.length; ++i) {
+                    if (set.contains(this.dataStore[i])) {
+                        tempSet.add(this.dataStore[i]);
+                    }
+                }
+                return tempSet;
+            }
+
+            function subset(set) {
+                if (this.size() > set.size()) {
+                    return false;
+                } else {
+                    for (var i = 0; i < this.dataStore.length; ++i) {
+                        if (!set.contains(this.dataStore[i])) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+
+        }
+
+
+        // 二叉树
+        // 查找非常快 添加或删除元素 也非常快
+        function TreeNode(data, left, right) {
+            this.data = data;
+            this.left = left;
+            this.right = right;
+            this.show = show;
+            // this.count= count; // node 可以设计来存放其他数据,以利用二叉树
+
+            function show() {
+                return this.data;
+            }
+        }
+
+        function BST() {
+            this.root = null;
+            this.insert = insert;
+            this.inOrder = inOrder;
+            this.preOrder = preOrder;
+            this.postOrder = postOrder;
+            this.getMin = getMin;
+            this.getMax = getMax;
+            this.find = find;
+            this.remove = remove;
+            this.removeNode = removeNode;
+            this.getMidNum = getMidNum;
+
+            function insert(data) {
+                var n = new TreeNode(data, null, null);
+                if (this.root === null) {
+                    this.root = n;
+                    return;
+                }
+                var current = this.root;
+                var parent = this.root;
+                while (true) {
+                    parent = current;
+                    if (current.data > data) {
+                        current = current.left;
+                        if (current === null) {
+                            parent.left = n;
+                            break;
+                        }
+                    } else {
+                        current = current.right;
+                        if (current === null) {
+                            parent.right = n;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // 中序遍历
+            function inOrder(node = this.root) {
+                if (node !== null) {
+                    inOrder(node.left);
+                    log(node.show()); // 此时可进行其他操作                  
+                    inOrder(node.right);
+                }
+            }
+            // 先序遍历
+            function preOrder(node = this.root) {
+                if (node !== null) {
+                    log(node.show());
+                    preOrder(node.left);
+                    preOrder(node.right);
+                }
+            }
+            // 后序遍历
+            function postOrder(node = this.root) {
+                if (node !== null) {
+                    postOrder(node.left);
+                    postOrder(node.right);
+                    log(node.show());
+                }
+            }
+
+            function getMin() {
+                var current = this.root;
+                while (current.left !== null) {
+                    current = current.left;
+                }
+                return current.data;
+            }
+
+            function getMax() {
+                var current = this.root;
+                while (current.right !== null) {
+                    current = current.right;
+                }
+                return current.data;
+            }
+
+            function find(data) {
+                var current = this.root;
+                while (current != null) {
+                    if (current.data == data) {
+                        return current;
+                    } else if (data < current.data) {
+                        current = current.left;
+                    } else {
+                        current = current.right;
+                    }
+                }
+
+                return null;
+            }
+
+            function remove(data) {
+                root = removeNode(this.root, data);
+            }
+
+            function removeNode(node, data) {
+                if (node === null) {
+                    return null;
+                }
+                if (data === node.data) {
+                    // 没有子节点的节点
+                    if (node.left === null && node.right === null) {
+                        return null;
+                    }
+                    // 没有左子节点的节点
+                    if (node.left == null) {
+                        return node.right;
+                    }
+                    // 没有右子节点的节点
+                    if (node.right == null) {
+                        return node.left;
+                    }
+                    // 有两个子节点的节点
+                    var tempNode = getSmallest(node.right);
+                    node.data = tempNode.data;
+                    node.right = removeNode(node.right, tempNode.data);
+                    return node;
+                } else if (data < node.data) {
+                    node.left = removeNode(node.left, data);
+                    return node;
+                } else {
+                    node.right = removeNode(node.right, data);
+                    return node;
+                }
+            }
+
+            function getSmallest(node) {
+                while (node.left !== null) {
+                    current = node.left;
+                }
+                return node;
+            }
+            // 中节点的个数
+            function getMidNum(node = this.root) {
+                var count = 0;
+                if (node.left !== null && node.right !== null) {
+                    count = this.getMidNum(node.left) + this.getMidNum(node.right) + 1;
+                }
+                return count;
+            }
+        }
+
+        var tree = new BST();
+        tree.insert(23);
+        tree.insert(45);
+        tree.insert(16);
+        tree.insert(37);
+        tree.insert(3);
+        tree.insert(99);
+        tree.insert(22);
+        tree.insert(88);
+        tree.insert(66);
+        log('中序遍历\n')
+        tree.inOrder();
+        log('先序遍历\n');
+        tree.preOrder();
+        log('后序遍历\n');
+        tree.postOrder();
+        log('min:', tree.getMin());
+        log('max:', tree.getMax());
+        log(tree.find(66));
+
+    </script>
+    
+</body>
+
+</html>
