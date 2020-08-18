@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8种hover效果</title>
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        div {
+            margin: 2em 1em;
+        }
+
+        button {
+            text-transform: uppercase;
+        }
+
+        #send-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #send-btn button {
+            background: #5f55af;
+            border: 0;
+            border-radius: 4px;
+            padding: 10px 30px 10px 20px;
+            color: white;
+
+            font-weight: bold;
+            overflow: hidden;
+        }
+
+        #send-btn button span {
+            display: inline-block;
+            vertical-align: middle;
+            padding-right: 5px;
+        }
+
+        #send-btn button:hover span {
+            animation: send-fly 2s ease-in-out 1;
+        }
+
+        @keyframes send-fly {
+            0% {
+                transform: translateX(0%);
+            }
+
+            50% {
+                transform: translateX(300%);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        #neon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            background: #031628;
+            padding: 2em 1em;
+        }
+
+        #neon-btn button {
+            border: 1px solid;
+            background-color: transparent;
+
+            font-size: 14px;
+            padding: 10px 20px;
+            font-weight: 300;
+        }
+
+        #neon-btn .one {
+            color: #4cc9f0;
+        }
+
+        #neon-btn .two {
+            color: #f038ff;
+        }
+
+        #neon-btn .three {
+            color: #b9e769;
+        }
+
+        #neon-btn .btn:hover {
+            color: white;
+            border: 0;
+        }
+
+        #neon-btn .one:hover {
+            background-color: #4cc9f0;
+            border-color: #4cc9f0;
+            box-shadow: 1px 1px 18px 2px rgba(76, 201, 240, 1);
+        }
+
+        #neon-btn .two:hover {
+            background-color: #f038ff;
+            border-color: #f038ff;
+            box-shadow: 1px 1px 18px 2px rgba(240, 56, 255, 1);
+        }
+
+        #neon-btn .three:hover {
+            background-color: #b9e769;
+            border-color: #b9e769;
+            box-shadow: 1px 1px 18px 2px rgba(185, 231, 105, 1);
+        }
+
+        #draw-border {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #draw-border button {
+            border: 0;
+            background: none;
+
+            color: #4361ee;
+            font-weight: bold;
+            position: relative;
+            outline: none;
+            padding: 10px 20px;
+            box-sizing: border-box;
+        }
+
+        #draw-border button::before,
+        button::after {
+            box-sizing: inherit;
+            position: absolute;
+            content: '';
+            border: 2px solid transparent;
+            width: 0;
+            height: 0;
+        }
+
+        #draw-border button::after {
+            bottom: 0;
+            right: 0;
+        }
+
+        #draw-border button::before {
+            top: 0;
+            left: 0;
+        }
+
+        #draw-border button:hover::before,
+        button:hover::after {
+            width: 100%;
+            height: 100%;
+        }
+
+        #draw-border button:hover::before {
+            border-top-color: #4361ee;
+            border-right-color: #4361ee;
+            transition: width 0.3s ease-out, height 0.3s ease-out 0.3s;
+        }
+
+        #draw-border button:hover::after {
+            border-bottom-color: #4361ee;
+            border-left-color: #4361ee;
+            transition: border-color 0s ease-out 0.6s, width 0.3s ease-out 0.6s, height 0.3s ease-out 1s;
+        }
+
+        #circle-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #circle-btn .btn-container {
+            position: relative;
+        }
+
+        #circle-btn button {
+            border: 0;
+            border-radius: 50px;
+            color: white;
+            background: #5f55af;
+            padding: 15px 20px 16px 60px;
+
+            background: linear-gradient(to right, #f72585 50%, #5f55af 50%);
+            background-size: 200% 100%;
+            background-position: right bottom;
+            transition: all 2s ease;
+        }
+
+        #circle-btn p {
+            position: absolute;
+            left: 0;
+            top: 0%;
+            width: 46px;
+            background: #f72585;
+            line-height: 46px;
+            border-radius: 50%;
+            padding-left: 8px;
+            text-align: center;
+        }
+
+        #circle-btn button:hover {
+            background-position: left bottom;
+        }
+
+        #border-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #border-btn button {
+            border: 0;
+            border-radius: 10px;
+            background: #2ec4b6;
+
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 15px 30px;
+            outline: none;
+            position: relative;
+            transition: border-radius 3s;
+        }
+
+        #border-btn button:hover {
+            border-bottom-right-radius: 50px;
+            border-top-left-radius: 50px;
+            border-bottom-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        #frozen-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #frozen-btn button {
+            border: 0;
+            margin: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 15px 50px;
+            border-radius: 50px;
+            color: white;
+            outline: none;
+            position: relative;
+        }
+
+        #frozen-btn button:before {
+            content: '';
+            display: block;
+            background: linear-gradient(to left, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.4) 50%);
+            background-size: 210% 100%;
+            background-position: right bottom;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            border-radius: 50px;
+            transition: all 1s;
+            -webkit-transition: all 1s;
+        }
+
+        #frozen-btn .green {
+            background-image: linear-gradient(to right, #25aae1, #40e495);
+            box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.75);
+        }
+
+        #frozen-btn .purple {
+            background-image: linear-gradient(to right, #6253e1, #852D91);
+            box-shadow: 0 4px 15px 0 rgba(236, 116, 149, 0.75);
+        }
+
+        #frozen-btn .purple:hover:before {
+            background-position: left bottom;
+        }
+
+        #frozen-btn .green:hover:before {
+            background-position: left bottom;
+        }
+
+        #shiny-shadow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1c2541;
+            padding: 2em 1em;
+        }
+
+        #shiny-shadow button {
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            padding: 15px 50px;
+            outline: none;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #shiny-shadow span {
+            z-index: 20;
+        }
+
+        #shiny-shadow button:after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: -36px;
+            left: -100px;
+            background: white;
+            width: 50px;
+            height: 125px;
+            opacity: 20%;
+            transform: rotate(-45deg);
+        }
+
+        #shiny-shadow button:hover:after {
+            left: 120%;
+            transition: all 3200ms cubic-bezier(0.3, 1, 0.2, 1);
+        }
+
+        #loading-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #loading-btn button {
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+            font-weight: bold;
+            font-size: 20px;
+            padding: 15px 50px;
+            position: relative;
+        }
+
+        #loading-btn button:before {
+            transition: all 0.8s cubic-bezier(0.7, -0.5, 0.2, 2);
+            content: '';
+            width: 1%;
+            height: 100%;
+            background: #ff5964;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #loading-btn button span {
+            mix-blend-mode: darken;
+            /* 元素的内容应该与元素的直系父元素的内容和元素的背景如何混合 */
+        }
+
+        #loading-btn button:hover:before {
+            background: #ff5964;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <p>参考:<a
+            href="https://www.blog.duomly.com/html-button-hover-effects/">https://www.blog.duomly.com/html-button-hover-effects/</a>
+    </p>
+    <br />
+    <div id="send-btn">
+        <button>
+            <span>》》</span>
+            Send
+        </button>
+    </div>
+
+    <div id="neon-btn">
+        <button class="btn one">Hover me</button>
+        <button class="btn two">Hover me</button>
+        <button class="btn three">Hover me</button>
+    </div>
+
+    <div id="draw-border">
+        <button>Hover me</button>
+    </div>
+
+    <div id="circle-btn">
+        <div class="btn-container">
+            <p>》</p>
+            <button>Hover me</button>
+        </div>
+    </div>
+
+    <div id="border-btn">
+        <button>Hover me</button>
+    </div>
+
+    <div id="frozen-btn">
+        <button class="green">Hover me</button>
+        <button class="purple">Hover me</button>
+    </div>
+
+    <div id="shiny-shadow">
+        <button><span>Hover me</span></button>
+    </div>
+
+    <div id="loading-btn">
+        <button><span>Hover me</span></button>
+    </div>
+
+</body>
+
+</html>
