@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自定义列表符号</title>
+    <style>
+      ul {
+        list-style: none;
+        color: #fff;
+        font-size: 20px;
+        border: 3px solid #000;
+        padding: 1rem 2rem;
+        min-height: 200px;
+        margin: 15px 2rem 0 0;
+        background: #323232;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+        border-radius: 8px;
+      }
+
+      li {
+        padding: 0.3rem 0;
+      }
+
+      li::before {
+        content: "☐";
+        color: aqua;
+      }
+
+      li.completed::before {
+        content: "✔ ";
+        text-decoration: none;
+        color: greenyellow;
+      }
+
+      li.completed {
+        text-decoration: line-through;
+        color: #bdbdbd;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h2>待处理</h2>
+      <ul>
+        <li>待办任务1</li>
+        <li>待办任务2</li>
+        <li>待办任务3</li>
+        <li>待办任务4</li>
+        <li>待办任务5</li>
+      </ul>
+    </div>
+    <div>
+      <h2>已完成</h2>
+      <ul>
+        <li class="completed">完成任务1</li>
+        <li class="completed">完成任务2</li>
+        <li class="completed">完成任务3</li>
+      </ul>
+    </div>
+  </body>
+</html>

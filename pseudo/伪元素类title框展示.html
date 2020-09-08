@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>伪元素实现类title框展示</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .box-1 {
+      position: relative;
+      width: 120px;
+      line-height: 38px;
+      margin: 100px auto;
+      color: #D9AB8C;
+      text-align: center;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* hover 提示 */
+    .box-1:hover::before {
+      content: attr(data-msg);
+      position: absolute;
+      top: -50px;
+      left: 10px;
+      padding: 2px 6px;
+      display: inline-block;
+      color: #D9AB8C;
+      border: 1px solid #999;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    /* 三角形箭头 */
+    .box-1:hover::after {
+      content: "";
+      border-top: 5px solid #999;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      position: absolute;
+      top: -6px;
+      left: 54px;
+    }
+  </style>
+</head>
+
+<body>
+  <div data-msg="类title框展示" class="box-1">Hover ME</div>
+</body>
+
+</html>

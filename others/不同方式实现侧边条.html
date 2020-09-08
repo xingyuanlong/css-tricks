@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>不同方式实现侧边条</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .t {
+      position: relative;
+      width: 200px;
+      height: 60px;
+      background: #ddd;
+      margin-left: 20px;
+    }
+
+    .t1 {
+      border-left: 5px solid pink;
+    }
+
+    .t2::before {
+      content: "";
+      width: 5px;
+      height: 100%;
+      display: block;
+      background-color: pink;
+    }
+
+    .t3 {
+      box-shadow: inset 5px 0px pink;
+      margin-bottom: 100px;
+    }
+
+    .t4 {
+      box-shadow: -5px 0px 0 0 pink;
+      margin-top: 100px;
+    }
+
+    .t5 {
+      filter: drop-shadow(-5px 0 0 pink);
+    }
+
+    .t6 {
+      width: 205px;
+      overflow-y: scroll;
+    }
+
+    .t6::-webkit-scrollbar {
+      width: 200px;
+      background-color: #ddd;
+    }
+  </style>
+</head>
+
+<body>
+  <p>不同 css 侧边条</p>
+  <div class="t t1"></div>
+  <br />
+  <div class="t t2"></div>
+  <br />
+  <div class="t t3"></div>
+  <div class="t t4"></div>
+  <br />
+  <div class="t t5"></div>
+  <br />
+  <div class="t6"></div>
+  <br />
+</body>
+
+</html>

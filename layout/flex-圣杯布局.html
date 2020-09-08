@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>flex 圣杯布局</title>
+  <style>
+    .HolyGrail {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      flex: 0 0 200px;
+    }
+
+    footer {
+      flex: 0 0 180px;
+    }
+
+    .HolyGrail-body {
+      display: flex;
+      flex: 1;
+    }
+
+    .HolyGrail-content {
+      flex: 1;
+      background-color: aquamarine;
+    }
+
+    .HolyGrail-nav {
+      order: -1;
+      flex: 0 0 12rem;
+      background-color: azure;
+    }
+
+    .HolyGrail-ads {
+      flex: 0 0 12rem;
+      background-color: bisque;
+    }
+
+    div,
+    main,
+    nav,
+    aside,
+    header,
+    footer {
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .HolyGrail-body {
+        flex-direction: column;
+        flex: 1;
+      }
+
+      .HolyGrail-nav,
+      .HolyGrail-ads,
+      .HolyGrail-content {
+        flex: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="HolyGrail">
+    <header>header</header>
+    <div class="HolyGrail-body">
+      <main class="HolyGrail-content">
+        <h1>圣杯布局左中右三列布局，渲染顺序中间列书写在前保证提前渲染，左右两列定宽，中间列自适应剩余宽度。</h1>
+      </main>
+      <nav class="HolyGrail-nav">
+        HolyGrail-nav
+      </nav>
+      <aside class="HolyGrail-ads">
+        HolyGrail-ads
+      </aside>
+    </div>
+    <footer>footer</footer>
+  </div>
+</body>
+
+</html>
