@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>text-decoration实现波浪效果</title>
+  <style>
+    div {
+      width: 200px;
+      height: 200px;
+      line-height: 200px;
+      font-size: 50px;
+      margin: auto;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .wave {
+      border: 5px solid #DE9CD1;
+      border-radius: 50%;
+      animation: indent 5s infinite linear;
+    }
+
+    div {
+      color: transparent;
+      text-decoration-line: underline;
+      text-decoration-style: wavy;
+      text-decoration-color: #DE9CD1;
+    }
+
+    @keyframes indent {
+      100% {
+        text-indent: -110px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- div 需要填充足够的内容 将div撑开 -->
+  <div>Goooooooooal</div>
+  <div class="wave">Gooooooooal</div>
+</body>
+
+</html>

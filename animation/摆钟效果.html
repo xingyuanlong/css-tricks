@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>摆钟效果</title>
+  <style>
+    .container {
+      position: relative;
+      width: 10vmin;
+      height: 70vmin;
+      margin: 20vmin auto;
+      transform-origin: center 0;
+      animation: rotate 1.5s cubic-bezier(.5, 0, .5, 1) infinite alternate, opacity 3s linear infinite alternate;
+    }
+
+    .ball {
+      position: absolute;
+      width: 10vmin;
+      height: 10vmin;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff, #C6C6EC);
+      top: 60vmin;
+      left: 0;
+      animation: move 1.5s cubic-bezier(.5, 0, .5, 1) infinite alternate;
+    }
+
+    @keyframes opacity {
+
+      from,
+      50% {
+        border: 1px dashed rgba(255, 255, 255, 1);
+      }
+
+      to {
+        border: 1px dashed rgba(0, 0, 0, .6);
+      }
+    }
+
+    @keyframes rotate {
+      100% {
+        transform: rotate(90deg) translate(-3vmin, 0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="ball"></div>
+  </div>
+</body>
+
+</html>
